@@ -23,13 +23,13 @@ Before handling online queries, the system must generate the shortest path dista
 - **Target Class:** `Floyd_Warshall_1.java`
 - **Action:** Run this class to parse the initial road network (e.g., the 2,200-node OpenStreetMap dataset). It computes the static topologies and logical connections necessary for routing.
 
-### 🔑 2.2 Secure Proxy Initialization (Key Holder)
+### 🔑 2.2 Secure Proxy Initialization 
 The Proxy holds the Secret Key (SK) and participates strictly in decryption and Garbled Circuit comparisons. It does NOT hold the map data.
 - **Target Class:** `CT.java` (Cryptographic Tools)
 - **Action:** The Proxy initializes the CKKS context (e.g., polynomial degree $N=8192$) and listens for secure comparison requests from the NS.
 - **Implementation Detail:** The system establishes Socket connections (e.g., listening on a specific port like 12345 via localhost for testing) to perform the `CT_CMP2` (Ciphertext Comparison) protocol using SCAPI's garbled circuits.
 
-### 🗺️ 2.3 Navigation Server Execution (Data Holder)
+### 🗺️ 2.3 Navigation Server Execution
 The NS holds the Encrypted Distance Matrix (EDM) and the CKKS Evaluation Keys (RelinKeys). It executes the core homomorphic navigation logic.
 - **Target Class:** `GaiaNavigationTools.java`
 - **Action:** The NS runs the geometric routing algorithms (SecureSkimming, NLow, NMid, NHigh) entirely over ciphertexts. When it needs to compare two encrypted distances, it interacts with the Proxy over the configured socket.
